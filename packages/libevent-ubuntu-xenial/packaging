@@ -2,4 +2,4 @@
 set -e -x
 
 # Source: https://packages.ubuntu.com/xenial-updates/amd64/libevent-2.0-5/download 
-cp -a ${BOSH_COMPILE_TARGET}/libevent/libevent-2.0-5_2.0.21-stable-2ubuntu0.16.04.1_amd64.deb ${BOSH_INSTALL_TARGET}/
+cp -a ${BOSH_COMPILE_TARGET}/libevent-assets/libevent-2.0-5_2.0.21-stable-2ubuntu0.16.04.1_amd64.deb ${BOSH_INSTALL_TARGET}/
