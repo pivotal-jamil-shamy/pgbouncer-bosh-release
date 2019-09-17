@@ -1,0 +1,7 @@
+---
+name: pgbouncer-1.8
+
+dependencies: []
+
+files:
+- "pgbouncer/pgbouncer-1.8"

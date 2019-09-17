@@ -1,0 +1,47 @@
+---
+name: pgbouncer
+
+templates:
+  pre-start.erb: bin/pre-start
+  control.erb: bin/control
+  pgbouncer.ini.erb: config/pgbouncer.ini
+  pgbouncer-users.erb: config/pgbouncer-users
+
+packages:
+- "libevent-ubuntu-xenial"
+- "pgbouncer-1.8"
+
+consumes:
+- name: postgres
+  type: database
+  optional: true
+
+properties:
+  database.client_side_db_name:
+    description: https://pgbouncer.github.io/config.html#section-databases
+  database.dbname:
+    description: https://pgbouncer.github.io/config.html#section-databases
+  database.host:
+    description: https://pgbouncer.github.io/config.html#section-databases
+  database.port:
+    description: https://pgbouncer.github.io/config.html#section-databases
+     
+  pgbouncer.listen_port:
+    description: https://pgbouncer.github.io/config.html#generic-settings         
+  pgbouncer.listen_addr:
+    description: https://pgbouncer.github.io/config.html#generic-settings
+  pgbouncer.auth_type:
+    description: https://pgbouncer.github.io/config.html#generic-settings
+    default: md5
+  pgbouncer.admin_users:
+    description: https://pgbouncer.github.io/config.html#generic-settings
+  pgbouncer.default_pool_size:
+    description: https://pgbouncer.github.io/config.html#generic-settings
+  pgbouncer.max_client_conn:
+    description: https://pgbouncer.github.io/config.html#generic-settings
+
+  auth_file.user:
+    description: https://pgbouncer.github.io/config.html#authentication-file-format
+  auth_file.password:
+    description: https://pgbouncer.github.io/config.html#authentication-file-format
+  

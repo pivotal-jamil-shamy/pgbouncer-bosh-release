@@ -1,0 +1,21 @@
+[databases]
+<%
+  database_host=""
+  if_p("database.host") do |property_value|
+    database_host = property_value
+  end.else do
+    database_host = link('postgres').instances[0].address
+  end
+-%>
+<%=p("database.client_side_db_name")%> = host=<%=database_host%> port=<%=p("database.port")%> dbname=<%=p("database.dbname")%>
+
+[pgbouncer]
+listen_port = <%=p("pgbouncer.listen_port")%>
+listen_addr = <%=p("pgbouncer.listen_addr")%>
+auth_type = <%=p("pgbouncer.auth_type")%>
+auth_file = /var/vcap/jobs/pgbouncer/config/pgbouncer-users
+admin_users = <%=p("pgbouncer.admin_users")%>
+pool_mode = session
+default_pool_size=<%=p("pgbouncer.default_pool_size")%>
+max_client_conn=<%=p("pgbouncer.max_client_conn")%>
+ignore_startup_parameters = extra_float_digits

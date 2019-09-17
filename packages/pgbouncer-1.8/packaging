@@ -1,0 +1,5 @@
+#!/bin/bash
+set -e -x
+
+cp -a ${BOSH_COMPILE_TARGET}/pgbouncer/pgbouncer-1.8 ${BOSH_INSTALL_TARGET}/
+chmod +x ${BOSH_INSTALL_TARGET}/pgbouncer-1.8

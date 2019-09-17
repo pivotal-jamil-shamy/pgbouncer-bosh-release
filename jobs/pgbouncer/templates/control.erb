@@ -1,0 +1,38 @@
+#!/bin/bash
+set -e
+
+JOB_NAME=pgbouncer
+RUN_DIR=/var/vcap/sys/run/${JOB_NAME}
+LOG_DIR=/var/vcap/sys/log/${JOB_NAME}
+PIDFILE=${RUN_DIR}/pid
+
+STDOUT_LOG_FILE=$LOG_DIR/${JOB_NAME}.stdout.log
+STDERR_LOG_FILE=$LOG_DIR/${JOB_NAME}.stderr.log
+
+case $1 in
+
+  start)
+
+    echo $$ > $PIDFILE
+
+    exec /var/vcap/packages/pgbouncer-1.8/pgbouncer-1.8 /var/vcap/jobs/pgbouncer/config/pgbouncer.ini >> $STDOUT_LOG_FILE 2>> $STDERR_LOG_FILE
+
+    ;;
+
+  stop)
+
+    if [ -f "$PIDFILE" ]; then
+      pid=$(head -n 1 $PIDFILE)
+      kill -9 $pid
+      rm -f $PIDFILE
+      echo "Process $pid killed... well probably"
+    else
+      echo "Unable to find PIDFILE: $PIDFILE"
+    fi
+
+    ;;
+
+  *)
+    echo "Usage: ctl {start|stop}" ;;
+
+esac

@@ -1,0 +1,51 @@
+#!/bin/bash
+set -e -x
+
+install_debian_package ()
+{
+    echo "Installing $1"
+    set +e
+
+    for x in `seq 1 100` :
+    do
+        dpkg --force-confdef -i $1 2>&1
+        if [ $? -ne 0 ] ; then
+        sleep 3
+        else
+        set -e
+        return 0
+        fi
+    done
+    set -e
+    echo "Unable to install $1"
+    lsof -n
+    exit 1
+}
+
+LIB_EVENT_PACKAGE_PATH="/var/vcap/packages/libevent-ubuntu-xenial/libevent-2.0-5_2.0.21-stable-2ubuntu0.16.04.1_amd64.deb"
+JOB_NAME=pgbouncer
+RUN_DIR=/var/vcap/sys/run/${JOB_NAME}
+LOG_DIR=/var/vcap/sys/log/${JOB_NAME}
+PIDFILE=${RUN_DIR}/pid
+
+# Changing ownership of log and pid files
+mkdir -p $RUN_DIR $LOG_DIR
+chown -R vcap:vcap $RUN_DIR $LOG_DIR
+
+# Changing ownership of pgbouncer binary and config files to be
+# able to run as vcap user
+chown vcap:vcap /var/vcap/packages/pgbouncer-1.8/pgbouncer-1.8 
+chown -R vcap:vcap /var/vcap/jobs/pgbouncer/config/
+
+# Installing libevent
+codename=$(lsb_release -c | grep xenial | awk '{print $2}')
+if [ "$codename" == "xenial" ]; then
+    echo "Installing libevent package"
+    (
+    flock -x 200
+    install_debian_package $LIB_EVENT_PACKAGE_PATH
+    ) 200>/var/vcap/data/dpkg.lock
+else
+    echo "libevent package can be only installed on xenial stemcells"
+    exit 1   
+fi

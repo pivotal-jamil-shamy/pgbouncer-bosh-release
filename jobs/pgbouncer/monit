@@ -1,0 +1,6 @@
+check process pgbouncer
+  with pidfile /var/vcap/sys/run/pgbouncer/pid
+  start program "/var/vcap/jobs/pgbouncer/bin/control start"
+    as uid vcap and gid vcap
+  stop program "/var/vcap/jobs/pgbouncer/bin/control stop"
+  group vcap

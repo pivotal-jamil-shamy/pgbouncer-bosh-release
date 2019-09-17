@@ -1,0 +1,7 @@
+---
+name: libevent-ubuntu-xenial
+
+dependencies: []
+
+files:
+- "libevent/libevent-2.0-5_2.0.21-stable-2ubuntu0.16.04.1_amd64.deb"
