@@ -11,11 +11,11 @@ This configuration:
       database:
         client_side_db_name: clientDB
         dbname: atc
-        host: 10.0.1.1
+        host: 10.0.1.1 # Address of the DB, Imortant: see below about the links.
         port: 5432
       pgbouncer:
-        listen_addr: 127.0.0.1
-        listen_port: 8888
+        listen_addr: 127.0.0.1 # Address where PGBouncer will be listening on, make it 127.0.0.1 on a web node since only the web node need to connect to it
+        listen_port: 8888 # Port where PGBouncer will be listening on
         admin_users: atc-user
         default_pool_size: 32
         max_client_conn: 64
