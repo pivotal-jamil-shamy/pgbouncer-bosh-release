@@ -59,7 +59,26 @@ consumes:
   optional: true
 ```
 
-When link is available, you do not need to specify the `database.host` property. The link will automatically figure out the DB VM IP address.
+When the link is available, you do not need to specify the `database.host` property. The link will automatically figure out the DB VM IP address. So the PGBouncer properties will look like this (notice that we will not specify  `database.host` property):
+
+```
+  - name: pgbouncer
+    release: pgbouncer
+    properties:
+      database:
+        client_side_db_name: clientDB
+        dbname: atc
+        port: 5432
+      pgbouncer:
+        listen_addr: 127.0.0.1
+        listen_port: 8888
+        admin_users: atc-user
+        default_pool_size: 32
+        max_client_conn: 64
+      auth_file:
+        user: atc-user
+        password: meow
+```
 
 Note: if the link is available, and you want to explicitly specify the host, you can always provide `database.host` in the properties, it will override any links addresses.
 
